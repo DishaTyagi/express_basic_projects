@@ -12,7 +12,7 @@ passport.use(new localStrategy((username, password, done) => {
         if(!user){
             return done(new Error('Username Invalid'));
         }
-        if(user.password != password){
+        if(user.password !== password){
             return done(null, false)
         }
 
@@ -41,4 +41,4 @@ passport.deserializeUser((userId, done) => {
     .catch(done)
 })
 
-module.exports= passport
+module.exports = passport
