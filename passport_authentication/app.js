@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const {db, Users} = require('./db');
 const passport = require('./setupPassport');
+const flash = require("connect-flash");
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use(
 //must come after session middleware
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(flash());
 
 app.get('/signup', (req,res) => {
     res.render('signup');
@@ -50,20 +53,21 @@ app.get('/login',(req,res) =>{
 
 app.post('/login', 
     passport.authenticate('local', {
-        successRedirect: '/home',
-        failureRedirect: '/login'
+        successRedirect: '/profile',
+        failureRedirect: '/login',
+        failureFlash: "Invalid ..."
     })
 )
 
 function checkLoggedIn(req,res,next){
     if(req.user){
         return next();
-    }
+    }    
     res.redirect('/login');
 }
 
-app.get('/home', checkLoggedIn, (req,res) =>{
-    res.send("Welcome Home!");
+app.get('/profile', checkLoggedIn, (req,res) =>{
+    res.render("profile");
 })
 
 db.sync().then(() => {
@@ -72,4 +76,6 @@ db.sync().then(() => {
         
     })
 })
+
+
 
