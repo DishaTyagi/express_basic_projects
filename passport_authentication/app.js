@@ -17,7 +17,7 @@ app.use(
         resave: false,
         saveUninitialized: true,
         cookie:{
-            maxAge: 1000*60*60      //in milliseconds
+            maxAge: 1000*60*60     //in milliseconds
         }
     })
 )
@@ -68,7 +68,7 @@ function checkLoggedIn(req,res,next){
 }
 
 app.get('/profile', checkLoggedIn, (req,res) =>{
-    res.render("profile");
+    res.render("profile", {user: req.user});
 })
 
 db.sync().then(() => {
