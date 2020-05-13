@@ -28,7 +28,7 @@ app.get('/signup', (req,res) => {
     res.render('signup');
 });
 
-app.post('signup', (req,res) => {
+app.post('/signup', (req,res) => {
     Users.create({
         username: req.body.username,
         email: req.body.email,
