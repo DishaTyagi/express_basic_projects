@@ -71,6 +71,15 @@ app.get('/profile', checkLoggedIn, (req,res) =>{
     res.render("profile", {user: req.user});
 })
 
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback', 
+    passport.authenticate('facebook', {
+        successRedirect:'/profile',
+        failureRedirect: '/login'}),
+   
+);
+
 db.sync().then(() => {
     app.listen(3000, () =>{
         console.log("Server started on port 3000");
